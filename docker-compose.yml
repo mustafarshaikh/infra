@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  jenkins:
+    build: ./jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - mysql
+    networks:
+      - default
+
+  mysql:
+    build: ./mysql
+    # image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - default
+
+
+
+volumes:
+  jenkins_home:
+  mysql_data:
+
+networks:
+  infra_default:
+    driver: bridge
