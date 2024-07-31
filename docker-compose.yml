@@ -17,11 +17,8 @@ services:
   mysql:
     build: ./mysql
     # image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: my_database
-      MYSQL_USER: my_user
-      MYSQL_PASSWORD: my_password
+    env_file:
+      - .env.mysql
     ports:
       - "3306:3306"
     volumes:
